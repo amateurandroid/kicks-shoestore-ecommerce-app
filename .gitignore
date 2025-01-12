@@ -1,0 +1,66 @@
+# Ignore node_modules in client, server, and admin
+client/node_modules/
+server/node_modules/
+admin/node_modules/
+
+# Ignore build output directories
+client/build/
+server/dist/
+admin/build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore local MongoDB database files
+/data/db/
+
+# Ignore sensitive files
+client/.env
+server/.env
+admin/.env
+
+# Ignore coverage reports
+coverage/
+
+# Ignore build artifacts
+client/build/
+server/build/
+admin/build/
+server/public/
+
+# Ignore service worker cache
+client/service-worker.js
+
+# Ignore local development configurations
+client/.next/
+client/out/
+client/.nuxt/
+admin/.next/
+admin/out/
+admin/.nuxt/
