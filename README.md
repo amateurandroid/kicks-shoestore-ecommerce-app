@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Kicks – Full-Stack E-commerce Platform
 
-## Getting Started
+A sneaker store built as three separate apps: a customer storefront, an admin panel, and a REST API.
 
-First, run the development server:
+**Live:** https://ecommerce-kicks.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun run dev
+## Architecture
+
+```
+client/   Next.js 13 storefront (browse, cart, checkout, order history, social login)
+admin/    Next.js 13 admin panel (products, orders, sales dashboard)
+server/   Express API on MongoDB, deployed on Vercel
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The API is organized into layers:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- `routes/v1/`: versioned endpoints for products, categories, orders, users, dashboard, auth, and the Stripe webhook
+- `controller/`: request handling
+- `service/`: business logic, plus the Passport Google and Facebook strategies
+- `model/`: Mongoose schemas for users, admins, products, categories, and orders
+- `middleware/`: JWT verification, API-key checks, public vs. protected route handling, and error handling
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- **Auth:** email/password login with bcrypt hashing and JWT; Google and Facebook OAuth through Passport.js
+- **Payments:** Stripe checkout, with a webhook route mounted before the JSON body parser so it receives the raw request body
+- **Admin dashboard:** sales analytics charts (Recharts), plus product and order management
+- **State:** Redux Toolkit in both front ends (auth, cart)
+- **Images:** served through Cloudinary
 
-To learn more about Next.js, take a look at the following resources:
+## Tech stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next.js 13 · React 18 · Redux Toolkit · Recharts · Node.js · Express · MongoDB (Mongoose) · Passport.js · JWT · bcrypt · Stripe · Cloudinary · Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Running locally
 
-## Deploy on Vercel
+Each app runs separately.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# API
+cd server && npm install && npm start
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Storefront
+cd client && npm install && npm run dev
+
+# Admin panel
+cd admin && npm install && npm run dev
+```
+
+The server needs environment variables for MongoDB, JWT, Stripe, and the Google/Facebook OAuth apps. See `server/utils/environment.js` for the full list.
